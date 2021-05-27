@@ -62,7 +62,11 @@ export interface PluginInterface {
     [PluginHook.onInit]?: (this: PluginCtx) => void;
     [PluginHook.onStart]?: (this: PluginCtx) => Promise<void>;
     [PluginHook.onDispose]?: (this: PluginCtx) => Promise<void>;
-    [PluginHook.onBeforeClose]?: (this: PluginCtx, order: OrderOptions) => Promise<boolean | void>;
+    [PluginHook.onBeforeClose]?: (
+        this: PluginCtx,
+        order: OrderOptions,
+        closing: ExecutedOrder,
+    ) => Promise<boolean | void>;
     [PluginHook.onBeforeOpen]?: (this: PluginCtx, order: OrderOptions) => Promise<boolean | void>;
     [PluginHook.onOpen]?: (this: PluginCtx, order: ExecutedOrder) => Promise<void>;
     [PluginHook.onClose]?: (this: PluginCtx, order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
