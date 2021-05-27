@@ -29,13 +29,18 @@ export interface GenticWrapperOptions {
     best?: number;
 }
 
-export interface SchemaDescriptor {
+type SchemaBoolDescriptor = {
+    bool: true; // булево
+};
+
+type SchemaNumberDescriptor = {
     min: number; // начальное значение
     max: number; // конечное значеие
     int?: boolean; // целочисленное
-    bool?: boolean; // булево
     odd?: boolean; // Нечетное
-}
+};
+
+export type SchemaDescriptor = SchemaNumberDescriptor | SchemaBoolDescriptor;
 
 export type GeneticSchema<T = any> = {
     [K in keyof Partial<T>]: SchemaDescriptor;
