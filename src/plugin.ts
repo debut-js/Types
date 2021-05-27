@@ -2,7 +2,7 @@ import { Candle } from './candle';
 import { DebutCore } from './debut';
 import { ExecutedOrder, OrderOptions } from './order';
 
-export interface PluginDirverInterface {
+export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
     getPublicAPI(): unknown;
     syncReduce(hookName: SyncHooks, ...args: HookArguments): void;
@@ -14,7 +14,7 @@ export interface PluginDirverInterface {
 /**
  * Base plugin type
  */
-export type Plugin = (api: PluginDirverInterface) => void;
+export type Plugin = (api: PluginDriverInterface) => void;
 
 /**
  * Plugin hook names
