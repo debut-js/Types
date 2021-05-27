@@ -22,6 +22,7 @@ export interface GenticWrapperOptions {
     populationSize?: number;
     days: number;
     ohlc?: boolean;
+    useTicks?: boolean; // Enterprise only
     gapDays?: number;
     validateSchema: ConfigValidator;
     ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean;
