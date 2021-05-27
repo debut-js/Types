@@ -1,0 +1,33 @@
+{
+    "name": "@debut/types",
+    "version": "1.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "description": "Common Debut Typescript Typings for enterprise and community versions",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "postversion": "git push && git push --tags"
+    },
+    "author": "Dmitry Yurov",
+    "license": "Apache-2.0",
+    "devDependencies": {
+        "@types/benchmark": "^2.1.0",
+        "@types/node": "^14.6.4",
+        "@typescript-eslint/eslint-plugin": "^4.0.1",
+        "@typescript-eslint/parser": "^4.0.1",
+        "eslint": "^7.8.1",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "git-format-staged": "^2.1.0",
+        "husky": "^4.2.5",
+        "prettier": "^2.1.1",
+        "typescript": "^4.0.2"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "git-format-staged -f 'prettier --stdin --stdin-filepath \"{}\"' '*.ts' '*.json'"
+        }
+    }
+}
