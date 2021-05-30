@@ -29,11 +29,11 @@ export interface GenticWrapperOptions {
     best?: number;
 }
 
-type SchemaBoolDescriptor = {
+export type SchemaBoolDescriptor = {
     bool: true; // булево
 };
 
-type SchemaNumberDescriptor = {
+export type SchemaNumberDescriptor = {
     min: number; // начальное значение
     max: number; // конечное значеие
     int?: boolean; // целочисленное
