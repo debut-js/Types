@@ -54,6 +54,8 @@ export interface OrderOptions {
     margin?: boolean;
     // Use futures, if possible
     futures?: boolean;
+    // Force order creation or close, and ignore plugins skipping
+    force?: boolean;
 }
 
 /**
