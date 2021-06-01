@@ -1,14 +1,12 @@
 import { Candle } from './candle';
 import { DebutCore } from './debut';
 import { ExecutedOrder, OrderOptions } from './order';
-
 export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
     getPublicAPI(): unknown;
-    syncReduce(hookName: SyncHooks, ...args: HookArguments): void;
-    asyncSkipReduce(hookName: SkippingHooks, ...args: HookArguments): Promise<boolean | void>;
-    asyncReduce(hookName: AsyncHooks, ...args: HookArguments): Promise<void>;
-    runHook(hookName: PluginHook, plugin: PluginInterface, ...args: HookArguments): Promise<boolean | void> | void;
+    syncReduce<T extends SyncHooks>(hookName: T, ...args: Parameters<HookToArgumentsMap[T]>);
+    asyncSkipReduce<T extends SkippingHooks>(hookName: T, ...args: Parameters<HookToArgumentsMap[T]>);
+    asyncReduce<T extends AsyncHooks>(hookName: T, ...args: Parameters<HookToArgumentsMap[T]>): Promise<void>;
 }
 
 /**
@@ -54,31 +52,38 @@ export type AsyncHooks =
     | PluginHook.onStart;
 
 /**
+ * Map hook to typed function
+ */
+export declare type HookToArgumentsMap = {
+    [PluginHook.onInit]: () => void;
+    [PluginHook.onStart]: () => Promise<void>;
+    [PluginHook.onDispose]: () => Promise<void>;
+    [PluginHook.onBeforeClose]: (order: OrderOptions, closing: ExecutedOrder) => Promise<boolean | void>;
+    [PluginHook.onBeforeOpen]: (order: OrderOptions) => Promise<boolean | void>;
+    [PluginHook.onOpen]: (order: ExecutedOrder) => Promise<void>;
+    [PluginHook.onClose]: (order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
+    [PluginHook.onCandle]: (candle: Candle) => Promise<void>;
+    [PluginHook.onAfterCandle]: (candle: Candle) => Promise<void>;
+    [PluginHook.onTick]: (tick: Candle) => Promise<boolean | void>;
+};
+
+/**
  * Interface for plugin, should be implemented
  */
 export interface PluginInterface {
     name: string;
     api?: unknown;
-    [PluginHook.onInit]?: (this: PluginCtx) => void;
-    [PluginHook.onStart]?: (this: PluginCtx) => Promise<void>;
-    [PluginHook.onDispose]?: (this: PluginCtx) => Promise<void>;
-    [PluginHook.onBeforeClose]?: (
-        this: PluginCtx,
-        order: OrderOptions,
-        closing: ExecutedOrder,
-    ) => Promise<boolean | void>;
-    [PluginHook.onBeforeOpen]?: (this: PluginCtx, order: OrderOptions) => Promise<boolean | void>;
-    [PluginHook.onOpen]?: (this: PluginCtx, order: ExecutedOrder) => Promise<void>;
-    [PluginHook.onClose]?: (this: PluginCtx, order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
-    [PluginHook.onCandle]?: (this: PluginCtx, candle: Candle) => Promise<void>;
-    [PluginHook.onAfterCandle]?: (this: PluginCtx, candle: Candle) => Promise<void>;
-    [PluginHook.onTick]?: (this: PluginCtx, tick: Candle) => Promise<boolean | void>;
+    [PluginHook.onInit]?: HookToArgumentsMap[PluginHook.onInit];
+    [PluginHook.onStart]?: HookToArgumentsMap[PluginHook.onStart];
+    [PluginHook.onDispose]?: HookToArgumentsMap[PluginHook.onDispose];
+    [PluginHook.onBeforeClose]?: HookToArgumentsMap[PluginHook.onBeforeClose];
+    [PluginHook.onBeforeOpen]?: HookToArgumentsMap[PluginHook.onBeforeOpen];
+    [PluginHook.onOpen]?: HookToArgumentsMap[PluginHook.onOpen];
+    [PluginHook.onClose]?: HookToArgumentsMap[PluginHook.onClose];
+    [PluginHook.onCandle]?: HookToArgumentsMap[PluginHook.onCandle];
+    [PluginHook.onAfterCandle]?: HookToArgumentsMap[PluginHook.onAfterCandle];
+    [PluginHook.onTick]?: HookToArgumentsMap[PluginHook.onTick];
 }
-
-/**
- * Hook arguments util
- */
-export type HookArguments = Parameters<PluginInterface[keyof typeof PluginHook]>;
 
 /**
  * Runtime context for working plugin
