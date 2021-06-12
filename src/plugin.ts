@@ -54,7 +54,7 @@ export type AsyncHooks =
 /**
  * Map hook to typed function
  */
-export declare type HookToArgumentsMap = {
+export type HookToArgumentsMap = {
     [PluginHook.onInit]: () => void;
     [PluginHook.onStart]: () => Promise<void>;
     [PluginHook.onDispose]: () => Promise<void>;
