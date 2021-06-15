@@ -15,8 +15,6 @@ export interface BaseTransport {
     getInstrument(ticker: string): Promise<Instrument>;
     // Prepare lots for broker
     prepareLots(lots: number, ticker: string): number;
-    // Stop all runtime off thread activity
-    dispose(): Promise<void>;
 }
 
 /**
