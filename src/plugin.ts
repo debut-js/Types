@@ -55,16 +55,20 @@ export type AsyncHooks =
  * Map hook to typed function
  */
 export type HookToArgumentsMap = {
-    [PluginHook.onInit]: () => void;
-    [PluginHook.onStart]: () => Promise<void>;
-    [PluginHook.onDispose]: () => Promise<void>;
-    [PluginHook.onBeforeClose]: (order: OrderOptions, closing: ExecutedOrder) => Promise<boolean | void>;
-    [PluginHook.onBeforeOpen]: (order: OrderOptions) => Promise<boolean | void>;
-    [PluginHook.onOpen]: (order: ExecutedOrder) => Promise<void>;
-    [PluginHook.onClose]: (order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
-    [PluginHook.onCandle]: (candle: Candle) => Promise<void>;
-    [PluginHook.onAfterCandle]: (candle: Candle) => Promise<void>;
-    [PluginHook.onTick]: (tick: Candle) => Promise<boolean | void>;
+    [PluginHook.onInit]: (this: PluginCtx) => void;
+    [PluginHook.onStart]: (this: PluginCtx) => Promise<void>;
+    [PluginHook.onDispose]: (this: PluginCtx) => Promise<void>;
+    [PluginHook.onBeforeClose]: (
+        this: PluginCtx,
+        order: OrderOptions,
+        closing: ExecutedOrder,
+    ) => Promise<boolean | void>;
+    [PluginHook.onBeforeOpen]: (this: PluginCtx, order: OrderOptions) => Promise<boolean | void>;
+    [PluginHook.onOpen]: (this: PluginCtx, order: ExecutedOrder) => Promise<void>;
+    [PluginHook.onClose]: (this: PluginCtx, order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
+    [PluginHook.onCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
+    [PluginHook.onAfterCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
+    [PluginHook.onTick]: (this: PluginCtx, tick: Candle) => Promise<boolean | void>;
 };
 
 /**
