@@ -23,7 +23,7 @@ export interface DebutCore {
 }
 
 export interface DebutOptions {
-    broker: 'tinkoff' | 'binance'; // Тип брокера
+    broker: 'tinkoff' | 'binance' | 'alpaca'; // Тип брокера
     ticker: string; // Тикер
     currency: string; // Валюта
     interval: TimeFrame; // Временной интервал
