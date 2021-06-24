@@ -23,18 +23,30 @@ export interface DebutCore {
 }
 
 export interface DebutOptions {
-    broker: 'tinkoff' | 'binance' | 'alpaca'; // Тип брокера
-    ticker: string; // Тикер
-    currency: string; // Валюта
-    interval: TimeFrame; // Временной интервал
-    amount: number; // Сумма для работы стратегии
-    fee?: number; // Налог за операцию в дробях
-    id?: number; // Ид конфигурации
-    sandbox?: boolean; // Активен ли режим песочницы или торговля на реальные деньги
-    margin?: boolean; // Торгуем на споте или на кросс марже
-    futures?: boolean; // Торгуем на фьючерсах
-    lotsMultiplier?: number; // Множитель лотности, например если нужно сделать х2 или х3 закупку, по умолчанию 1
-    equityLevel?: number; // Склько доступно от общего депозита для текущей стратегии
+    broker: 'tinkoff' | 'binance' | 'alpaca';
+    ticker: string;
+    currency: string;
+    interval: TimeFrame;
+    amount: number;
+    fee?: number;
+    id?: number;
+    sandbox?: boolean;
+    lotsMultiplier?: number;
+    equityLevel?: number;
+}
+
+export interface DebutBinanceOptions extends DebutOptions {
+    broker: 'binance';
+    margin?: boolean; // Spot or cross margin
+    futures?: boolean; // Cross futures [beta]
+}
+
+export interface DebutAlpacaOptions extends DebutOptions {
+    broker: 'alpaca';
+}
+
+export interface DebutTinkoffOptions extends DebutOptions {
+    broker: 'tinkoff';
 }
 
 export interface DebutMeta {
