@@ -33,22 +33,11 @@ export interface DebutOptions {
     sandbox?: boolean;
     lotsMultiplier?: number;
     equityLevel?: number;
-    // Enterprise only
-    majorCandles?: boolean;
-}
-
-export interface DebutBinanceOptions extends DebutOptions {
-    broker: 'binance';
+    // Binance only
     margin?: boolean; // Spot or cross margin
     futures?: boolean; // Cross futures [beta]
-}
-
-export interface DebutAlpacaOptions extends DebutOptions {
-    broker: 'alpaca';
-}
-
-export interface DebutTinkoffOptions extends DebutOptions {
-    broker: 'tinkoff';
+    // Enterprise only
+    majorCandles?: boolean;
 }
 
 export interface DebutMeta {
