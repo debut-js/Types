@@ -1,6 +1,7 @@
 import { Candle } from './candle';
 import { DebutCore } from './debut';
 import { ExecutedOrder, OrderOptions } from './order';
+import { TimeFrame } from './common';
 export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
     getPublicAPI(): unknown;
@@ -28,6 +29,8 @@ export const enum PluginHook {
     onInit = 'onInit',
     onStart = 'onStart',
     onDispose = 'onDispose',
+    // Enterprise only
+    onMajorCandle = 'onMajorCandle',
 }
 
 /**
@@ -69,6 +72,8 @@ export type HookToArgumentsMap = {
     [PluginHook.onCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
     [PluginHook.onAfterCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
     [PluginHook.onTick]: (this: PluginCtx, tick: Candle) => Promise<boolean | void>;
+    // Enterprise only
+    [PluginHook.onMajorCandle]: (this: PluginCtx, candle: Candle, timeframe: TimeFrame) => Promise<void>;
 };
 
 /**
@@ -87,6 +92,8 @@ export interface PluginInterface {
     [PluginHook.onCandle]?: HookToArgumentsMap[PluginHook.onCandle];
     [PluginHook.onAfterCandle]?: HookToArgumentsMap[PluginHook.onAfterCandle];
     [PluginHook.onTick]?: HookToArgumentsMap[PluginHook.onTick];
+    // Enterprise only
+    [PluginHook.onMajorCandle]?: HookToArgumentsMap[PluginHook.onMajorCandle];
 }
 
 /**

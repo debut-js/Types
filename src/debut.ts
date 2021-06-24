@@ -33,6 +33,8 @@ export interface DebutOptions {
     sandbox?: boolean;
     lotsMultiplier?: number;
     equityLevel?: number;
+    // Enterprise only
+    majorCandles?: boolean;
 }
 
 export interface DebutBinanceOptions extends DebutOptions {
