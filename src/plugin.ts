@@ -48,6 +48,7 @@ export type SyncHooks = PluginHook.onInit;
  */
 export type AsyncHooks =
     | PluginHook.onCandle
+    | PluginHook.onMajorCandle
     | PluginHook.onAfterCandle
     | PluginHook.onClose
     | PluginHook.onDispose
