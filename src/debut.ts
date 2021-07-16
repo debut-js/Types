@@ -1,11 +1,12 @@
 import { Candle } from './candle';
 import { TimeFrame, WorkingEnv } from './common';
-import { GeneticSchema } from './genetic';
+import { GeneticSchema, TestingPhase } from './genetic';
 import { ExecutedOrder, OrderType } from './order';
 import { PluginInterface } from './plugin';
 import { BaseTransport, Instrument } from './transport';
 
 export interface DebutCore {
+    id: string;
     orders: ExecutedOrder[];
     dispose: () => void;
     instrument: Instrument;
@@ -42,7 +43,7 @@ export interface DebutOptions {
 
 export interface DebutMeta {
     parameters: GeneticSchema;
-    score: (bot: DebutCore) => number;
+    score: (bot: DebutCore, phase?: TestingPhase) => number;
     validate: (cfg: DebutOptions) => false | DebutOptions;
     stats: (bot: DebutCore) => unknown;
     create: (transport: BaseTransport, cfg: DebutOptions, env: WorkingEnv) => Promise<DebutCore>;

@@ -11,10 +11,16 @@ export type GeneticStats = {
     stdev: number;
 };
 
+export const enum TestingPhase {
+    'before' = 'before',
+    'main' = 'main',
+    'after' = 'after',
+}
+
 export type ConfigValidator = (cfg: DebutOptions) => DebutOptions | false;
 
 export interface GenticWrapperOptions {
-    score: (bot: DebutCore) => number;
+    score: (bot: DebutCore, phase?: TestingPhase) => number;
     stats: (bot: DebutCore) => unknown;
     create: (transport: BaseTransport, solution: DebutOptions, environment: WorkingEnv) => Promise<DebutCore>;
     generations: number;
@@ -27,6 +33,7 @@ export interface GenticWrapperOptions {
     validateSchema: ConfigValidator;
     ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean;
     best?: number;
+    cross?: number;
 }
 
 export type SchemaBoolDescriptor = {
