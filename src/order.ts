@@ -54,6 +54,8 @@ export interface OrderOptions {
     margin?: boolean;
     // Use futures, if possible
     futures?: boolean;
+    // Retry counts
+    retries?: number;
 }
 
 /**
