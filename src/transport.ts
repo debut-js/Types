@@ -1,5 +1,5 @@
 import { TickHandler, TimeFrame } from './common';
-import { ExecutedOrder, OrderOptions } from './order';
+import { ExecutedOrder, PendingOrder } from './order';
 
 /**
  * Base transport interface for different brokers support
@@ -8,9 +8,9 @@ export interface BaseTransport {
     // Add listener to every tick in real market or market emulation
     subscribeToTick(ticker: string, handler: TickHandler, interval?: TimeFrame): Promise<() => void>;
     // Place order with customized parameters
-    placeOrder(order: OrderOptions): Promise<ExecutedOrder>;
+    placeOrder(order: PendingOrder): Promise<ExecutedOrder>;
     // Place sandbox order. Order will be executed locally immediate, without sending to broker
-    placeSandboxOrder(order: OrderOptions): Promise<ExecutedOrder>;
+    placeSandboxOrder(order: PendingOrder): Promise<ExecutedOrder>;
     // Get instrument meta information
     getInstrument(ticker: string): Promise<Instrument>;
     // Prepare lots for broker
