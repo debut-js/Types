@@ -1,13 +1,14 @@
 import { Candle } from './candle';
 import { TimeFrame, WorkingEnv } from './common';
 import { GeneticSchema, TestingPhase } from './genetic';
-import { ExecutedOrder, OrderType } from './order';
+import { ExecutedOrder, OrderType, PendingOrder } from './order';
 import { PluginInterface } from './plugin';
 import { BaseTransport, Instrument } from './transport';
 
 export interface DebutCore {
     id: string;
     orders: ExecutedOrder[];
+    pending: PendingOrder[];
     dispose: () => void;
     instrument: Instrument;
     transport: BaseTransport;

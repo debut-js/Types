@@ -59,17 +59,25 @@ export interface OrderOptions {
 }
 
 /**
+ * Pending order data
+ */
+export interface PendingOrder extends OrderOptions {
+    // Client identifier
+    cid: number;
+    // Error code
+    error?: number; // TODO: implement error codes
+    // Processing indicator
+    processing?: boolean;
+}
+
+/**
  * Executed order data
  */
-export interface ExecutedOrder extends OrderOptions {
-    // Placed order identifier
+export interface ExecutedOrder extends PendingOrder {
+    // Placed order identifier from server
     orderId: string;
     // How many lots are filled. May be not equal with lots field if order have partial fill
     executedLots: number;
     // Fees size
     commission: { currency: string; value: number };
-    // Error code
-    error?: number; // TODO: implement error codes
-    // Processing indicator
-    processing?: boolean;
 }
