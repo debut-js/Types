@@ -7,8 +7,7 @@ import { BaseTransport, Instrument } from './transport';
 
 export interface DebutCore {
     id: string;
-    orders: ExecutedOrder[];
-    pending: PendingOrder[];
+    orders: Array<PendingOrder | ExecutedOrder>;
     dispose: () => void;
     instrument: Instrument;
     transport: BaseTransport;
