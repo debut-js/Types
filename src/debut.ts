@@ -3,7 +3,7 @@ import { TimeFrame, WorkingEnv } from './common';
 import { GeneticSchema, TestingPhase } from './genetic';
 import { ExecutedOrder, OrderType, PendingOrder } from './order';
 import { PluginInterface } from './plugin';
-import { BaseTransport, Instrument } from './transport';
+import { BaseTransport, Instrument, InstrumentType } from './transport';
 
 export interface DebutCore {
     id: string;
@@ -35,8 +35,9 @@ export interface DebutOptions {
     lotsMultiplier?: number;
     equityLevel?: number;
     // Binance only
-    margin?: boolean; // Spot or cross margin
-    futures?: boolean; // Cross futures [beta]
+    margin?: boolean; // Spot or cross margin accounts
+    // Use Different instruments e.g. futures, cfd, spot, if possible
+    instrumentType?: InstrumentType;
     // Enterprise only
     majorCandles?: boolean;
 }

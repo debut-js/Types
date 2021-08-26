@@ -1,4 +1,5 @@
 import { TickHandler, TimeFrame } from './common';
+import { DebutOptions } from './debut';
 import { ExecutedOrder, PendingOrder } from './order';
 
 /**
@@ -6,15 +7,15 @@ import { ExecutedOrder, PendingOrder } from './order';
  */
 export interface BaseTransport {
     // Add listener to every tick in real market or market emulation
-    subscribeToTick(ticker: string, handler: TickHandler, interval?: TimeFrame): Promise<() => void>;
+    subscribeToTick(opts: DebutOptions, handler: TickHandler): Promise<() => void>;
     // Place order with customized parameters
-    placeOrder(order: PendingOrder): Promise<ExecutedOrder>;
+    placeOrder(order: PendingOrder, opts: DebutOptions): Promise<ExecutedOrder>;
     // Place sandbox order. Order will be executed locally immediate, without sending to broker
-    placeSandboxOrder(order: PendingOrder): Promise<ExecutedOrder>;
+    placeSandboxOrder(order: PendingOrder, opts: DebutOptions): Promise<ExecutedOrder>;
     // Get instrument meta information
-    getInstrument(ticker: string): Promise<Instrument>;
+    getInstrument(opts: DebutOptions): Promise<Instrument>;
     // Prepare lots for broker
-    prepareLots(lots: number, ticker: string): number;
+    prepareLots(lots: number, instrumentId: string): number;
 }
 
 /**
@@ -31,4 +32,13 @@ export interface Instrument {
     lot: number;
     // Number of digits of a lot number
     lotPrecision: number;
+    // Instrument type (CFD, FUTURES, SPOT...)
+    type: InstrumentType;
+    // Debut generated instrument id
+    id: string;
 }
+
+/**
+ * Debut instrument type
+ */
+export type InstrumentType = 'SPOT' | 'FUTURES';
