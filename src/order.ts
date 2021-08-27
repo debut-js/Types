@@ -50,9 +50,9 @@ export interface OrderOptions {
     equityLevel?: number;
     // Learning marker, mean order created in learning phase
     learning?: boolean;
-    // Use margin, if supported and may be configured by broker API
+    // Use margin account, if supported and may be configured by broker API
     margin?: boolean;
-    // Use futures, if possible
+    // Use futures account, if possible
     futures?: boolean;
     // Retry counts
     retries?: number;
