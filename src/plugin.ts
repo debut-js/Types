@@ -1,8 +1,7 @@
 import { Candle } from './candle';
 import { DebutCore } from './debut';
-import { ExecutedOrder, OrderOptions } from './order';
+import { ExecutedOrder, PendingOrder } from './order';
 import { TimeFrame } from './common';
-import { PendingOrder } from '../dist/order';
 export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
     getPublicAPI(): unknown;
