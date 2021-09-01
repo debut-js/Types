@@ -2,6 +2,7 @@ import { Candle } from './candle';
 import { DebutCore } from './debut';
 import { ExecutedOrder, OrderOptions } from './order';
 import { TimeFrame } from './common';
+import { PendingOrder } from '../dist/order';
 export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
     getPublicAPI(): unknown;
@@ -23,6 +24,7 @@ export const enum PluginHook {
     onOpen = 'onOpen',
     onBeforeClose = 'onBeforeClose',
     onClose = 'onClose',
+    onBeforeTick = 'onBeforeTick',
     onTick = 'onTick',
     onCandle = 'onCandle',
     onAfterCandle = 'onAfterCandle',
@@ -36,7 +38,11 @@ export const enum PluginHook {
 /**
  * Hooks with skip operation support
  */
-export type SkippingHooks = PluginHook.onTick | PluginHook.onBeforeOpen | PluginHook.onBeforeClose;
+export type SkippingHooks =
+    | PluginHook.onBeforeTick
+    | PluginHook.onTick
+    | PluginHook.onBeforeOpen
+    | PluginHook.onBeforeClose;
 
 /**
  * Synchronious hooks
@@ -64,15 +70,16 @@ export type HookToArgumentsMap = {
     [PluginHook.onDispose]: (this: PluginCtx) => Promise<void>;
     [PluginHook.onBeforeClose]: (
         this: PluginCtx,
-        order: OrderOptions,
+        order: PendingOrder,
         closing: ExecutedOrder,
     ) => Promise<boolean | void>;
-    [PluginHook.onBeforeOpen]: (this: PluginCtx, order: OrderOptions) => Promise<boolean | void>;
+    [PluginHook.onBeforeOpen]: (this: PluginCtx, order: PendingOrder) => Promise<boolean | void>;
     [PluginHook.onOpen]: (this: PluginCtx, order: ExecutedOrder) => Promise<void>;
     [PluginHook.onClose]: (this: PluginCtx, order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
     [PluginHook.onCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
     [PluginHook.onAfterCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
-    [PluginHook.onTick]: (this: PluginCtx, tick: Candle) => Promise<boolean | void>;
+    [PluginHook.onBeforeTick]: (this: PluginCtx, tick: Candle) => Promise<boolean | void>;
+    [PluginHook.onTick]: (this: PluginCtx, tick: Candle) => Promise<void>;
     // Enterprise only
     [PluginHook.onMajorCandle]: (this: PluginCtx, candle: Candle, timeframe: TimeFrame) => Promise<void>;
 };
@@ -92,6 +99,7 @@ export interface PluginInterface {
     [PluginHook.onClose]?: HookToArgumentsMap[PluginHook.onClose];
     [PluginHook.onCandle]?: HookToArgumentsMap[PluginHook.onCandle];
     [PluginHook.onAfterCandle]?: HookToArgumentsMap[PluginHook.onAfterCandle];
+    [PluginHook.onBeforeTick]?: HookToArgumentsMap[PluginHook.onBeforeTick];
     [PluginHook.onTick]?: HookToArgumentsMap[PluginHook.onTick];
     // Enterprise only
     [PluginHook.onMajorCandle]?: HookToArgumentsMap[PluginHook.onMajorCandle];

@@ -1,4 +1,5 @@
 import { TimeFrame } from './common';
+import { InstrumentType } from './transport';
 
 /**
  * Type of order for placing
@@ -53,7 +54,10 @@ export interface OrderOptions {
     // Use margin account, if supported and may be configured by broker API
     margin?: boolean;
     // Use futures account, if possible
+    // @deprecated, use instrumentType instead
     futures?: boolean;
+    // Order Instrument type
+    instrumentType: InstrumentType;
     // Retry counts
     retries?: number;
 }
