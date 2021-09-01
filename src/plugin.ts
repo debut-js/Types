@@ -38,11 +38,7 @@ export const enum PluginHook {
 /**
  * Hooks with skip operation support
  */
-export type SkippingHooks =
-    | PluginHook.onBeforeTick
-    | PluginHook.onTick
-    | PluginHook.onBeforeOpen
-    | PluginHook.onBeforeClose;
+export type SkippingHooks = PluginHook.onBeforeTick | PluginHook.onBeforeOpen | PluginHook.onBeforeClose;
 
 /**
  * Synchronious hooks
