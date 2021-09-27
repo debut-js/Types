@@ -2,6 +2,7 @@ import { Candle } from './candle';
 import { DebutCore } from './debut';
 import { ExecutedOrder, PendingOrder } from './order';
 import { TimeFrame } from './common';
+import { Depth } from './orderbook';
 export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
     getPublicAPI(): unknown;
@@ -30,6 +31,7 @@ export const enum PluginHook {
     onInit = 'onInit',
     onStart = 'onStart',
     onDispose = 'onDispose',
+    onDepth = 'onDepth',
     // Enterprise only
     onMajorCandle = 'onMajorCandle',
 }
@@ -55,7 +57,8 @@ export type AsyncHooks =
     | PluginHook.onClose
     | PluginHook.onDispose
     | PluginHook.onOpen
-    | PluginHook.onStart;
+    | PluginHook.onStart
+    | PluginHook.onDepth;
 
 /**
  * Map hook to typed function
@@ -76,6 +79,7 @@ export type HookToArgumentsMap = {
     [PluginHook.onAfterCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
     [PluginHook.onBeforeTick]: (this: PluginCtx, tick: Candle) => Promise<boolean | void>;
     [PluginHook.onTick]: (this: PluginCtx, tick: Candle) => Promise<void>;
+    [PluginHook.onDepth]: (this: PluginCtx, candle: Depth) => Promise<void>;
     // Enterprise only
     [PluginHook.onMajorCandle]: (this: PluginCtx, candle: Candle, timeframe: TimeFrame) => Promise<void>;
 };
