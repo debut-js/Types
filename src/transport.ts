@@ -1,7 +1,7 @@
 import { TickHandler, TimeFrame } from './common';
 import { DebutOptions } from './debut';
 import { ExecutedOrder, PendingOrder } from './order';
-import { DepthOptions, DepthHandler } from './orderbook';
+import { DepthHandler } from './orderbook';
 
 /**
  * Base transport interface for different brokers support
@@ -19,7 +19,7 @@ export interface BaseTransport {
     prepareLots(lots: number, instrumentId: string): number;
     // Subscribe to orderbook
     /** @Beta method for subscribe to orderbook */
-    subscribeOrderBook(opts: DepthOptions, handler: DepthHandler): Promise<() => void>;
+    subscribeOrderBook(opts: DebutOptions, handler: DepthHandler): Promise<() => void>;
 }
 
 /**
