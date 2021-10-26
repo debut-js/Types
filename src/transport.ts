@@ -36,6 +36,10 @@ export interface Instrument {
     lot: number;
     // Number of digits of a lot number
     lotPrecision: number;
+    // Minimal lots quantity per trade
+    minQuantity: number;
+    // Minimal amount in currency for opening order
+    minNotional: number;
     // Instrument type (CFD, FUTURES, SPOT...)
     type: InstrumentType;
     // Debut generated instrument id
