@@ -19,7 +19,7 @@ export interface DebutCore {
     getName(): string;
     closeAll(): Promise<ExecutedOrder[]>;
     createOrder(operation: OrderType): Promise<ExecutedOrder>;
-    closeOrder(closing: ExecutedOrder): Promise<ExecutedOrder>;
+    closeOrder(closing: ExecutedOrder | PendingOrder): Promise<ExecutedOrder>;
     learn(days: number): Promise<void>;
 }
 
