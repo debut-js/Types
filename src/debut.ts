@@ -34,8 +34,6 @@ export interface DebutOptions {
     sandbox?: boolean;
     lotsMultiplier?: number;
     equityLevel?: number;
-    // Binance only
-    margin?: boolean; // Spot or cross margin accounts
     // Use Different instruments e.g. futures, cfd, spot, if possible
     instrumentType?: InstrumentType;
     // Enterprise only

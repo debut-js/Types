@@ -1,4 +1,4 @@
-import { TickHandler, TimeFrame } from './common';
+import { TickHandler } from './common';
 import { DebutOptions } from './debut';
 import { ExecutedOrder, PendingOrder } from './order';
 import { DepthHandler } from './orderbook';
@@ -11,8 +11,6 @@ export interface BaseTransport {
     subscribeToTick(opts: DebutOptions, handler: TickHandler): Promise<() => void>;
     // Place order with customized parameters
     placeOrder(order: PendingOrder, opts: DebutOptions): Promise<ExecutedOrder>;
-    // Place sandbox order. Order will be executed locally immediate, without sending to broker
-    placeSandboxOrder(order: PendingOrder, opts: DebutOptions): Promise<ExecutedOrder>;
     // Get instrument meta information
     getInstrument(opts: DebutOptions): Promise<Instrument>;
     // Prepare lots for broker
@@ -30,8 +28,6 @@ export interface Instrument {
     figi?: string;
     // Ticker
     ticker: string;
-    // Minimal price change (pip size)
-    pipSize?: number;
     // One lot size
     lot: number;
     // Number of digits of a lot number
@@ -49,4 +45,4 @@ export interface Instrument {
 /**
  * Debut instrument type
  */
-export type InstrumentType = 'SPOT' | 'FUTURES';
+export type InstrumentType = 'SPOT' | 'FUTURES' | 'MARGIN';
