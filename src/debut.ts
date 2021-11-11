@@ -6,14 +6,15 @@ import { PluginInterface } from './plugin';
 import { BaseTransport, Instrument, InstrumentType } from './transport';
 
 export interface DebutCore {
+    readonly prevCandle: Candle;
+    readonly currentCandle: Candle;
+    readonly ordersCount: number;
     id: string;
     orders: Array<PendingOrder | ExecutedOrder>;
     dispose: () => void;
     instrument: Instrument;
     transport: BaseTransport;
     opts: DebutOptions;
-    readonly prevCandle: Candle;
-    readonly currentCandle: Candle;
     registerPlugins(plugins: PluginInterface[]): void;
     start(): Promise<() => void>;
     getName(): string;
