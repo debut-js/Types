@@ -8,6 +8,7 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
+        "prepare": "npm run build",
         "postversion": "git push && git push --tags"
     },
     "author": "Dmitry Yurov",
