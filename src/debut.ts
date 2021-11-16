@@ -18,7 +18,7 @@ export interface DebutCore {
     registerPlugins(plugins: PluginInterface[]): void;
     start(): Promise<() => void>;
     getName(): string;
-    closeAll(): Promise<ExecutedOrder[]>;
+    closeAll(collapse?: boolean): Promise<ExecutedOrder[]>;
     createOrder(operation: OrderType): Promise<ExecutedOrder>;
     closeOrder(closing: ExecutedOrder | PendingOrder): Promise<ExecutedOrder>;
     learn(days: number): Promise<void>;
