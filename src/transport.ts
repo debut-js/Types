@@ -59,4 +59,5 @@ export type InstrumentType = 'SPOT' | 'FUTURES' | 'MARGIN';
 export interface TransactionInterface {
     add(order: PendingOrder): Promise<ExecutedOrder>;
     execute(executeMethod: (order: PendingOrder) => Promise<ExecutedOrder>): Promise<ExecutedOrder[]>;
+    whenReady(): Promise<void>;
 }
