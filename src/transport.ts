@@ -18,6 +18,11 @@ export interface BaseTransport {
     // Subscribe to orderbook
     /** @Beta method for subscribe to orderbook */
     subscribeOrderBook(opts: DebutOptions, handler: DepthHandler): Promise<() => void>;
+    /** @Beta methods for collapse many orders to one with transaction, **/
+    /** initiate transaction */
+    startTransaction(opts: DebutOptions): Promise<void>;
+    /** finalize transaction */
+    endTransaction(opts: DebutOptions): Promise<void>;
 }
 
 /**
@@ -40,9 +45,16 @@ export interface Instrument {
     type: InstrumentType;
     // Debut generated instrument id
     id: string;
+    // Active transaction state
+    transaction?: TransactionInterface;
 }
 
 /**
  * Debut instrument type
  */
 export type InstrumentType = 'SPOT' | 'FUTURES' | 'MARGIN';
+
+export interface TransactionInterface {
+    add(order: PendingOrder): Promise<ExecutedOrder>;
+    execute(executeMethod: (order: PendingOrder, opts: DebutOptions) => Promise<ExecutedOrder>): void;
+}

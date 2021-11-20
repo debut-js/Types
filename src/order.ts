@@ -32,6 +32,8 @@ interface BaseOrder {
     learning?: boolean;
     // Retries count of network requests
     retries?: number;
+    // Transaction sequence
+    transactionSeq?: 'first' | 'middle' | 'last';
 }
 
 /**
