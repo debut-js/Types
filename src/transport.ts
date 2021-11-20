@@ -22,7 +22,7 @@ export interface BaseTransport {
     /** initiate transaction */
     startTransaction(opts: DebutOptions, count: number): Promise<void>;
     /** wait transaction fill */
-    whenTransactionReady(): Promise<void>;
+    whenTransactionReady(opts: DebutOptions): Promise<void>;
     /** finalize transaction */
     endTransaction(opts: DebutOptions): Promise<ExecutedOrder[]>;
 }
