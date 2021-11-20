@@ -20,7 +20,7 @@ export interface BaseTransport {
     subscribeOrderBook(opts: DebutOptions, handler: DepthHandler): Promise<() => void>;
     /** @Beta methods for collapse many orders to one with transaction, **/
     /** initiate transaction */
-    startTransaction(opts: DebutOptions): Promise<void>;
+    startTransaction(opts: DebutOptions, count: number): Promise<void>;
     /** finalize transaction */
     endTransaction(opts: DebutOptions): Promise<ExecutedOrder[]>;
 }
