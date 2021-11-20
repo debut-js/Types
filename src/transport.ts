@@ -21,6 +21,8 @@ export interface BaseTransport {
     /** @Beta methods for collapse many orders to one with transaction, **/
     /** initiate transaction */
     startTransaction(opts: DebutOptions, count: number): Promise<void>;
+    /** wait transaction fill */
+    whenTransactionReady(): Promise<void>;
     /** finalize transaction */
     endTransaction(opts: DebutOptions): Promise<ExecutedOrder[]>;
 }
