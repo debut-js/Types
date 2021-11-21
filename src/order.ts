@@ -32,8 +32,6 @@ interface BaseOrder {
     learning?: boolean;
     // Retries count of network requests
     retries?: number;
-    // Transaction sequence
-    transactionSeq?: 'first' | 'middle' | 'last';
 }
 
 /**
@@ -42,8 +40,6 @@ interface BaseOrder {
 export interface PendingOrder extends BaseOrder {
     // Error code
     error?: number; // TODO: implement error codes
-    // Processing indicator
-    processing?: boolean;
 }
 
 /**

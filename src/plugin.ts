@@ -3,12 +3,12 @@ import { DebutCore } from './debut';
 import { ExecutedOrder, PendingOrder } from './order';
 import { TimeFrame } from './common';
 import { Depth } from './orderbook';
+
 export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
     getPublicAPI(): unknown;
-    syncReduce<T extends SyncHooks>(hookName: T, ...args: Parameters<HookToArgumentsMap[T]>);
-    asyncSkipReduce<T extends SkippingHooks>(hookName: T, ...args: Parameters<HookToArgumentsMap[T]>);
-    asyncReduce<T extends AsyncHooks>(hookName: T, ...args: Parameters<HookToArgumentsMap[T]>): Promise<void>;
+    skipReduce<T extends SkippingHooks>(hookName: T, ...args: Parameters<SkipHookArgumentsMap[T]>): boolean | void;
+    asyncReduce<T extends AsyncHooks>(hookName: T, ...args: Parameters<AsyncHookArgumentsMap[T]>): Promise<void>;
 }
 
 /**
@@ -63,21 +63,23 @@ export type AsyncHooks =
 /**
  * Map hook to typed function
  */
-export type HookToArgumentsMap = {
+export type SyncHookArgumentsMap = {
     [PluginHook.onInit]: (this: PluginCtx) => void;
+};
+
+export type SkipHookArgumentsMap = {
+    [PluginHook.onBeforeClose]: (this: PluginCtx, order: PendingOrder, closing: ExecutedOrder) => boolean | void;
+    [PluginHook.onBeforeOpen]: (this: PluginCtx, order: PendingOrder) => boolean | void;
+    [PluginHook.onBeforeTick]: (this: PluginCtx, tick: Candle) => boolean | void;
+};
+
+export type AsyncHookArgumentsMap = {
     [PluginHook.onStart]: (this: PluginCtx) => Promise<void>;
     [PluginHook.onDispose]: (this: PluginCtx) => Promise<void>;
-    [PluginHook.onBeforeClose]: (
-        this: PluginCtx,
-        order: PendingOrder,
-        closing: ExecutedOrder,
-    ) => Promise<boolean | void>;
-    [PluginHook.onBeforeOpen]: (this: PluginCtx, order: PendingOrder) => Promise<boolean | void>;
     [PluginHook.onOpen]: (this: PluginCtx, order: ExecutedOrder) => Promise<void>;
     [PluginHook.onClose]: (this: PluginCtx, order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
     [PluginHook.onCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
     [PluginHook.onAfterCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
-    [PluginHook.onBeforeTick]: (this: PluginCtx, tick: Candle) => Promise<boolean | void>;
     [PluginHook.onTick]: (this: PluginCtx, tick: Candle) => Promise<void>;
     [PluginHook.onDepth]: (this: PluginCtx, candle: Depth) => Promise<void>;
     // Enterprise only
@@ -90,19 +92,19 @@ export type HookToArgumentsMap = {
 export interface PluginInterface {
     name: string;
     api?: unknown;
-    [PluginHook.onInit]?: HookToArgumentsMap[PluginHook.onInit];
-    [PluginHook.onStart]?: HookToArgumentsMap[PluginHook.onStart];
-    [PluginHook.onDispose]?: HookToArgumentsMap[PluginHook.onDispose];
-    [PluginHook.onBeforeClose]?: HookToArgumentsMap[PluginHook.onBeforeClose];
-    [PluginHook.onBeforeOpen]?: HookToArgumentsMap[PluginHook.onBeforeOpen];
-    [PluginHook.onOpen]?: HookToArgumentsMap[PluginHook.onOpen];
-    [PluginHook.onClose]?: HookToArgumentsMap[PluginHook.onClose];
-    [PluginHook.onCandle]?: HookToArgumentsMap[PluginHook.onCandle];
-    [PluginHook.onAfterCandle]?: HookToArgumentsMap[PluginHook.onAfterCandle];
-    [PluginHook.onBeforeTick]?: HookToArgumentsMap[PluginHook.onBeforeTick];
-    [PluginHook.onTick]?: HookToArgumentsMap[PluginHook.onTick];
+    [PluginHook.onInit]?: SyncHookArgumentsMap[PluginHook.onInit];
+    [PluginHook.onStart]?: AsyncHookArgumentsMap[PluginHook.onStart];
+    [PluginHook.onDispose]?: AsyncHookArgumentsMap[PluginHook.onDispose];
+    [PluginHook.onBeforeClose]?: SkipHookArgumentsMap[PluginHook.onBeforeClose];
+    [PluginHook.onBeforeOpen]?: SkipHookArgumentsMap[PluginHook.onBeforeOpen];
+    [PluginHook.onOpen]?: AsyncHookArgumentsMap[PluginHook.onOpen];
+    [PluginHook.onClose]?: AsyncHookArgumentsMap[PluginHook.onClose];
+    [PluginHook.onCandle]?: AsyncHookArgumentsMap[PluginHook.onCandle];
+    [PluginHook.onAfterCandle]?: AsyncHookArgumentsMap[PluginHook.onAfterCandle];
+    [PluginHook.onBeforeTick]?: SkipHookArgumentsMap[PluginHook.onBeforeTick];
+    [PluginHook.onTick]?: AsyncHookArgumentsMap[PluginHook.onTick];
     // Enterprise only
-    [PluginHook.onMajorCandle]?: HookToArgumentsMap[PluginHook.onMajorCandle];
+    [PluginHook.onMajorCandle]?: AsyncHookArgumentsMap[PluginHook.onMajorCandle];
 }
 
 /**
