@@ -11,7 +11,7 @@ export interface DebutCore {
     readonly ordersCount: number;
     id: string;
     orders: Array<PendingOrder | ExecutedOrder>;
-    dispose: () => void;
+    dispose: () => Promise<void>;
     instrument: Instrument;
     transport: BaseTransport;
     opts: DebutOptions;
