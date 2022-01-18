@@ -27,7 +27,7 @@ export interface GenticWrapperOptions {
     validateSchema: ConfigValidator;
     ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean;
     best?: number;
-    fwdGaps?: boolean;
+    walkFwd?: 'conservative' | 'aggressive'; // Walk forward optimization
 }
 
 export type SchemaBoolDescriptor = {
