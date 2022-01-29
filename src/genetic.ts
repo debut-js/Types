@@ -12,6 +12,7 @@ export type GeneticStats = {
 };
 
 export type ConfigValidator = (cfg: DebutOptions) => DebutOptions | false;
+export type StatsValidator<T = any> = (stats: T) => boolean;
 
 export interface GenticWrapperOptions {
     score: (bot: DebutCore) => number;
@@ -24,7 +25,8 @@ export interface GenticWrapperOptions {
     ohlc?: boolean;
     useTicks?: boolean; // Enterprise only
     gapDays?: number;
-    validateSchema: ConfigValidator;
+    validateSchema?: ConfigValidator;
+    validateForwardStats?: StatsValidator;
     ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean;
     best?: number;
     walkFwd?: 'conservative' | 'aggressive'; // Walk forward optimization

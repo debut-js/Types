@@ -1,6 +1,6 @@
 import { Candle } from './candle';
 import { TimeFrame, WorkingEnv } from './common';
-import { GeneticSchema } from './genetic';
+import { GeneticSchema, ConfigValidator, StatsValidator } from './genetic';
 import { ExecutedOrder, OrderType, PendingOrder } from './order';
 import { PluginInterface } from './plugin';
 import { BaseTransport, Instrument, InstrumentType } from './transport';
@@ -44,9 +44,10 @@ export interface DebutOptions {
 export interface DebutMeta {
     parameters: GeneticSchema;
     score: (bot: DebutCore) => number;
-    validate: (cfg: DebutOptions) => false | DebutOptions;
     stats: (bot: DebutCore) => unknown;
     create: (transport: BaseTransport, cfg: DebutOptions, env: WorkingEnv) => Promise<DebutCore>;
+    validate?: ConfigValidator;
+    validateStats?: StatsValidator;
     ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean;
     testPlugins?: (cfg: DebutOptions) => PluginInterface[];
     geneticPlugins?: (cfg: DebutOptions) => PluginInterface[];
