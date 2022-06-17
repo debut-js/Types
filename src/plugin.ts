@@ -10,8 +10,8 @@ export interface PluginDriverInterface {
     skipReduce<T extends SkippingHooks>(hookName: T, ...args: Parameters<SkipHookArgumentsMap[T]>): boolean | void;
     asyncReduce<T extends AsyncHooks>(hookName: T, ...args: Parameters<AsyncHookArgumentsMap[T]>): Promise<void>;
     reduce<T extends SyncHooks>(hookName: T, ...args: Parameters<SyncHookArgumentsMap[T]>): void;
-    getPluginsSnapshot(): Record<string, Record<string, unknown>>;
-    restorePluginsSnapshot(pluginsData: Record<string, Record<string, unknown>>): void;
+    getSnapshot(): Record<string, Record<string, unknown>>;
+    hydrateSnapshot(pluginsData: Record<string, Record<string, unknown>>): void;
 }
 
 /**
