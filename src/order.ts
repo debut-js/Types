@@ -7,7 +7,7 @@ export const enum OrderType {
 }
 
 /** Common order interface for any order type definition */
-interface BaseOrder {
+export interface BaseOrder {
     // Client identifier
     cid: number;
     // Order type
@@ -25,13 +25,15 @@ interface BaseOrder {
     // Open price (only for close order)
     openPrice?: number;
     // Open order id (only for close order)
-    openId?: string;
+    openId?: string | number;
     // Sandbox marker
     sandbox?: boolean;
     // Learning marker, mean order created in learning phase
     learning?: boolean;
     // Retries count of network requests
     retries?: number;
+    // Number from 0 to 1 to reduce existing order
+    reduce?: number;
 }
 
 /**

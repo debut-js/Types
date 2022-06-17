@@ -1,14 +1,17 @@
 import { Candle } from './candle';
 import { DebutCore } from './debut';
-import { ExecutedOrder, PendingOrder } from './order';
+import { BaseOrder, ExecutedOrder, PendingOrder } from './order';
 import { TimeFrame } from './common';
 import { Depth } from './orderbook';
 
 export interface PluginDriverInterface {
     register(plugins: PluginInterface[]): void;
-    getPublicAPI(): unknown;
+    getPublicAPI(): Record<string, unknown>;
     skipReduce<T extends SkippingHooks>(hookName: T, ...args: Parameters<SkipHookArgumentsMap[T]>): boolean | void;
     asyncReduce<T extends AsyncHooks>(hookName: T, ...args: Parameters<AsyncHookArgumentsMap[T]>): Promise<void>;
+    reduce<T extends SyncHooks>(hookName: T, ...args: Parameters<SyncHookArgumentsMap[T]>): void;
+    getPluginsSnapshot(): Record<string, Record<string, unknown>>;
+    restorePluginsSnapshot(pluginsData: Record<string, Record<string, unknown>>): void;
 }
 
 /**
@@ -32,8 +35,12 @@ export const enum PluginHook {
     onStart = 'onStart',
     onDispose = 'onDispose',
     onDepth = 'onDepth',
+    onSnapshot = 'onSnapshot',
+    onHydrate = 'onHydrate',
+    onOrderUpdated = 'onOrderUpdated',
     // Enterprise only
     onMajorCandle = 'onMajorCandle',
+    onMajorTick = 'onMajorTick',
 }
 
 /**
@@ -44,13 +51,14 @@ export type SkippingHooks = PluginHook.onBeforeTick | PluginHook.onBeforeOpen | 
 /**
  * Synchronious hooks
  */
-export type SyncHooks = PluginHook.onInit;
+export type SyncHooks = PluginHook.onInit | PluginHook.onOrderUpdated;
 
 /**
  * Asynchronious hooks
  */
 export type AsyncHooks =
     | PluginHook.onTick
+    | PluginHook.onMajorTick
     | PluginHook.onCandle
     | PluginHook.onMajorCandle
     | PluginHook.onAfterCandle
@@ -65,10 +73,21 @@ export type AsyncHooks =
  */
 export type SyncHookArgumentsMap = {
     [PluginHook.onInit]: (this: PluginCtx) => void;
+    [PluginHook.onSnapshot]: (this: PluginCtx) => Record<string, unknown>;
+    [PluginHook.onHydrate]: (this: PluginCtx, data: Record<string, unknown>) => void;
+    [PluginHook.onOrderUpdated]: (
+        this: PluginCtx,
+        order: PendingOrder | ExecutedOrder,
+        changes: Partial<BaseOrder>,
+    ) => void;
 };
 
 export type SkipHookArgumentsMap = {
-    [PluginHook.onBeforeClose]: (this: PluginCtx, order: PendingOrder, closing: ExecutedOrder) => boolean | void;
+    [PluginHook.onBeforeClose]: (
+        this: PluginCtx,
+        order: PendingOrder,
+        closing: ExecutedOrder | PendingOrder,
+    ) => boolean | void;
     [PluginHook.onBeforeOpen]: (this: PluginCtx, order: PendingOrder) => boolean | void;
     [PluginHook.onBeforeTick]: (this: PluginCtx, tick: Candle) => boolean | void;
 };
@@ -84,6 +103,7 @@ export type AsyncHookArgumentsMap = {
     [PluginHook.onDepth]: (this: PluginCtx, candle: Depth) => Promise<void>;
     // Enterprise only
     [PluginHook.onMajorCandle]: (this: PluginCtx, candle: Candle, timeframe: TimeFrame) => Promise<void>;
+    [PluginHook.onMajorTick]: (this: PluginCtx, tick: Candle, timeframe: TimeFrame) => Promise<void>;
 };
 
 /**
@@ -93,18 +113,25 @@ export interface PluginInterface {
     name: string;
     api?: unknown;
     [PluginHook.onInit]?: SyncHookArgumentsMap[PluginHook.onInit];
+    [PluginHook.onSnapshot]?: SyncHookArgumentsMap[PluginHook.onSnapshot];
+    [PluginHook.onHydrate]?: SyncHookArgumentsMap[PluginHook.onHydrate];
+    [PluginHook.onOrderUpdated]?: SyncHookArgumentsMap[PluginHook.onOrderUpdated];
+
     [PluginHook.onStart]?: AsyncHookArgumentsMap[PluginHook.onStart];
     [PluginHook.onDispose]?: AsyncHookArgumentsMap[PluginHook.onDispose];
     [PluginHook.onBeforeClose]?: SkipHookArgumentsMap[PluginHook.onBeforeClose];
     [PluginHook.onBeforeOpen]?: SkipHookArgumentsMap[PluginHook.onBeforeOpen];
+    [PluginHook.onBeforeTick]?: SkipHookArgumentsMap[PluginHook.onBeforeTick];
+
     [PluginHook.onOpen]?: AsyncHookArgumentsMap[PluginHook.onOpen];
     [PluginHook.onClose]?: AsyncHookArgumentsMap[PluginHook.onClose];
     [PluginHook.onCandle]?: AsyncHookArgumentsMap[PluginHook.onCandle];
     [PluginHook.onAfterCandle]?: AsyncHookArgumentsMap[PluginHook.onAfterCandle];
-    [PluginHook.onBeforeTick]?: SkipHookArgumentsMap[PluginHook.onBeforeTick];
     [PluginHook.onTick]?: AsyncHookArgumentsMap[PluginHook.onTick];
+
     // Enterprise only
     [PluginHook.onMajorCandle]?: AsyncHookArgumentsMap[PluginHook.onMajorCandle];
+    [PluginHook.onMajorTick]?: AsyncHookArgumentsMap[PluginHook.onMajorTick];
 }
 
 /**

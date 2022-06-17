@@ -11,6 +11,16 @@ export type GeneticStats = {
     stdev: number;
 };
 
+export const enum GeneticWFOType {
+    Rolling = 'rolling',
+    Anchored = 'anchored',
+}
+
+export const enum GeneticType {
+    Island = 'island',
+    None = 'classic',
+}
+
 export type ConfigValidator = (cfg: DebutOptions) => DebutOptions | false;
 export type StatsValidator<T = any> = (stats: T) => boolean;
 
@@ -29,7 +39,9 @@ export interface GenticWrapperOptions {
     validateForwardStats?: StatsValidator;
     ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean;
     best?: number;
-    walkFwd?: 'conservative' | 'aggressive'; // Walk forward optimization
+    wfo?: GeneticWFOType; // Walk forward optimization
+    gaType?: GeneticType; // Genetic algirythms biological behaviour model type
+    gaContinent?: boolean; // Only for GeneticType.Island
 }
 
 export type SchemaBoolDescriptor = {

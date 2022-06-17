@@ -6,6 +6,7 @@
     },
     "description": "Common Debut Typescript Typings for enterprise and community versions",
     "types": "dist/index.d.ts",
+    "exports": "./dist/index.js",
     "scripts": {
         "build": "tsc",
         "preversion": "npm run build",
@@ -14,17 +15,17 @@
     "author": "Dmitry Yurov",
     "license": "Apache-2.0",
     "devDependencies": {
-        "@types/benchmark": "^2.1.0",
-        "@types/node": "^14.6.4",
-        "@typescript-eslint/eslint-plugin": "^4.0.1",
-        "@typescript-eslint/parser": "^4.0.1",
-        "eslint": "^7.8.1",
-        "eslint-config-prettier": "^6.11.0",
-        "eslint-plugin-prettier": "^3.1.4",
-        "git-format-staged": "^2.1.0",
+        "@types/benchmark": "^2.1.1",
+        "@types/node": "^17.0.41",
+        "@typescript-eslint/eslint-plugin": "^5.27.1",
+        "@typescript-eslint/parser": "^5.27.1",
+        "eslint": "^8.17.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "git-format-staged": "^3.0.0",
         "husky": "^4.2.5",
-        "prettier": "^2.1.1",
-        "typescript": "^4.0.2"
+        "prettier": "^2.6.2",
+        "typescript": "^4.7.3"
     },
     "husky": {
         "hooks": {

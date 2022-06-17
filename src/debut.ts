@@ -21,6 +21,7 @@ export interface DebutCore {
     closeAll(collapse?: boolean): Promise<ExecutedOrder[]>;
     createOrder(operation: OrderType): Promise<ExecutedOrder>;
     closeOrder(closing: ExecutedOrder | PendingOrder): Promise<ExecutedOrder>;
+    reduceOrder(closing: ExecutedOrder | PendingOrder, reduce: number): Promise<ExecutedOrder>;
     learn(days: number): Promise<void>;
 }
 
@@ -37,8 +38,6 @@ export interface DebutOptions {
     equityLevel?: number;
     // Use Different instruments e.g. futures, cfd, spot, if possible
     instrumentType?: InstrumentType;
-    // Enterprise only
-    majorCandles?: boolean;
 }
 
 export interface DebutMeta {
@@ -51,4 +50,10 @@ export interface DebutMeta {
     ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean;
     testPlugins?: (cfg: DebutOptions) => PluginInterface[];
     geneticPlugins?: (cfg: DebutOptions) => PluginInterface[];
+}
+
+export interface DebutSnapshotData {
+    orders: Array<ExecutedOrder>;
+    opts: DebutOptions;
+    pluginsData: Record<string, Record<string, unknown>>;
 }
