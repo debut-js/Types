@@ -25,15 +25,10 @@ export type ConfigValidator = (cfg: DebutOptions) => DebutOptions | false;
 export type StatsValidator<T = any> = (stats: T) => boolean;
 
 export interface GenticWrapperOptions {
-    score: (bot: DebutCore) => number;
-    stats: (bot: DebutCore) => unknown;
-    create: (transport: BaseTransport, solution: DebutOptions, environment: WorkingEnv) => Promise<DebutCore>;
-    bot: string;
     generations: number;
     log?: boolean;
     populationSize?: number;
     days: number;
-    ohlc?: boolean;
     useTicks?: boolean; // Enterprise only
     gapDays?: number;
     validateSchema?: ConfigValidator;
