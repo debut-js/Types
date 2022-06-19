@@ -28,6 +28,7 @@ export interface GenticWrapperOptions {
     score: (bot: DebutCore) => number;
     stats: (bot: DebutCore) => unknown;
     create: (transport: BaseTransport, solution: DebutOptions, environment: WorkingEnv) => Promise<DebutCore>;
+    bot: string;
     generations: number;
     log?: boolean;
     populationSize?: number;
