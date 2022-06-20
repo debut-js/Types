@@ -1,7 +1,5 @@
 import { Candle } from './candle';
-import { WorkingEnv } from './common';
-import { DebutCore, DebutOptions } from './debut';
-import { BaseTransport } from './transport';
+import { DebutOptions } from './debut';
 
 export type GeneticStats = {
     population: number;
@@ -38,6 +36,7 @@ export interface GenticWrapperOptions {
     wfo?: GeneticWFOType; // Walk forward optimization
     gaType?: GeneticType; // Genetic algirythms biological behaviour model type
     gaContinent?: boolean; // Only for GeneticType.Island
+    maxThreads?: number;
 }
 
 export type SchemaBoolDescriptor = {
