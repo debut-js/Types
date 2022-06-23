@@ -27,7 +27,6 @@ export interface GenticWrapperOptions {
     log?: boolean;
     populationSize?: number;
     days: number;
-    ohlc?: boolean;
     useTicks?: boolean; // Enterprise only
     gapDays?: number;
     validateSchema?: ConfigValidator;
