@@ -29,6 +29,7 @@ export const enum PluginHook {
     onClose = 'onClose',
     onBeforeTick = 'onBeforeTick',
     onTick = 'onTick',
+    onAfterTick = 'onAfterTick',
     onCandle = 'onCandle',
     onAfterCandle = 'onAfterCandle',
     onInit = 'onInit',
@@ -62,6 +63,7 @@ export type AsyncHooks =
     | PluginHook.onCandle
     | PluginHook.onMajorCandle
     | PluginHook.onAfterCandle
+    | PluginHook.onAfterTick
     | PluginHook.onClose
     | PluginHook.onDispose
     | PluginHook.onOpen
@@ -99,6 +101,7 @@ export type AsyncHookArgumentsMap = {
     [PluginHook.onClose]: (this: PluginCtx, order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
     [PluginHook.onCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
     [PluginHook.onAfterCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
+    [PluginHook.onAfterTick]: (this: PluginCtx, candle: Candle) => Promise<void>;
     [PluginHook.onTick]: (this: PluginCtx, tick: Candle) => Promise<void>;
     [PluginHook.onDepth]: (this: PluginCtx, candle: Depth) => Promise<void>;
     // Enterprise only
@@ -128,6 +131,7 @@ export interface PluginInterface {
     [PluginHook.onCandle]?: AsyncHookArgumentsMap[PluginHook.onCandle];
     [PluginHook.onAfterCandle]?: AsyncHookArgumentsMap[PluginHook.onAfterCandle];
     [PluginHook.onTick]?: AsyncHookArgumentsMap[PluginHook.onTick];
+    [PluginHook.onAfterTick]?: AsyncHookArgumentsMap[PluginHook.onAfterTick];
 
     // Enterprise only
     [PluginHook.onMajorCandle]?: AsyncHookArgumentsMap[PluginHook.onMajorCandle];
