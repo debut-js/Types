@@ -34,6 +34,8 @@ export interface BaseOrder {
     retries?: number;
     // Number from 0 to 1 to reduce existing order
     reduce?: number;
+    // Transaction for orders opening or close (does not implemented, is staging now)
+    transaction?: Array<string | number>;
 }
 
 /**
