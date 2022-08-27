@@ -48,6 +48,13 @@ export interface Instrument {
 export type InstrumentType = 'SPOT' | 'FUTURES' | 'MARGIN';
 
 export interface TransactionInterface {
-    add(order: PendingOrder): Promise<ExecutedOrder>;
+    /**
+     * @param order - pending order prepared for close closing
+     * @param closing - order to be closed after transaction executed
+     */
+    add(order: PendingOrder, closing: ExecutedOrder): Promise<ExecutedOrder>;
+    /**
+     * @param executeMethod - execute transaction, returns collapsed order for all closed orders
+     */
     execute(executeMethod: (order: PendingOrder) => Promise<ExecutedOrder>): Promise<ExecutedOrder[]>;
 }
