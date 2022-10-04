@@ -35,6 +35,7 @@ export const enum PluginHook {
     onInit = 'onInit',
     onStart = 'onStart',
     onDispose = 'onDispose',
+    onLearn = 'onLearn',
     onDepth = 'onDepth',
     onSnapshot = 'onSnapshot',
     onHydrate = 'onHydrate',
@@ -68,6 +69,7 @@ export type AsyncHooks =
     | PluginHook.onDispose
     | PluginHook.onOpen
     | PluginHook.onStart
+    | PluginHook.onLearn
     | PluginHook.onDepth;
 
 /**
@@ -97,6 +99,7 @@ export type SkipHookArgumentsMap = {
 export type AsyncHookArgumentsMap = {
     [PluginHook.onStart]: (this: PluginCtx) => Promise<void>;
     [PluginHook.onDispose]: (this: PluginCtx) => Promise<void>;
+    [PluginHook.onLearn]: (this: PluginCtx) => Promise<void>;
     [PluginHook.onOpen]: (this: PluginCtx, order: ExecutedOrder) => Promise<void>;
     [PluginHook.onClose]: (this: PluginCtx, order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;
     [PluginHook.onCandle]: (this: PluginCtx, candle: Candle) => Promise<void>;
@@ -120,6 +123,7 @@ export interface PluginInterface {
     [PluginHook.onHydrate]?: SyncHookArgumentsMap[PluginHook.onHydrate];
     [PluginHook.onOrderUpdated]?: SyncHookArgumentsMap[PluginHook.onOrderUpdated];
 
+    [PluginHook.onLearn]?: AsyncHookArgumentsMap[PluginHook.onLearn];
     [PluginHook.onStart]?: AsyncHookArgumentsMap[PluginHook.onStart];
     [PluginHook.onDispose]?: AsyncHookArgumentsMap[PluginHook.onDispose];
     [PluginHook.onBeforeClose]?: SkipHookArgumentsMap[PluginHook.onBeforeClose];
