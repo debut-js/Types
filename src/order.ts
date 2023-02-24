@@ -24,6 +24,8 @@ export interface BaseOrder {
     close?: boolean;
     // Open price (only for close order)
     openPrice?: number;
+    // Open time (only for close order)
+    openTime?: number;
     // Open order id (only for close order)
     openId?: string | number;
     // Sandbox marker
