@@ -9,6 +9,7 @@ export interface DebutCore {
     readonly prevCandle: Candle;
     readonly currentCandle: Candle;
     readonly ordersCount: number;
+    learning: boolean;
     id: string;
     orders: Array<PendingOrder | ExecutedOrder>;
     dispose: () => Promise<void>;
