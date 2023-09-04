@@ -15,7 +15,7 @@ export const enum GeneticWFOType {
 }
 
 export const enum GeneticType {
-    Island = 'island',
+    Island = 'islands',
     None = 'classic',
 }
 
