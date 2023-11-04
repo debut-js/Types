@@ -9,7 +9,7 @@ export const enum OrderType {
 /** Common order interface for any order type definition */
 export interface BaseOrder {
     // Client identifier
-    cid: number;
+    cid: string;
     // Order type
     type: OrderType;
     // Order owner name
