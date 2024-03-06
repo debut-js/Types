@@ -27,7 +27,7 @@ export interface DebutCore {
 }
 
 export interface DebutOptions {
-    broker: 'tinkoff' | 'binance' | 'alpaca';
+    broker: 'tinkoff' | 'binance' | 'alpaca' | 'ib';
     ticker: string;
     currency: string;
     interval: TimeFrame;
