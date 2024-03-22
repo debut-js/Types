@@ -45,7 +45,7 @@ export interface Instrument {
 /**
  * Debut instrument type
  */
-export type InstrumentType = 'SPOT' | 'FUTURES' | 'MARGIN';
+export type InstrumentType = 'SPOT' | 'FUTURES' | 'MARGIN' | 'CRYPTO';
 
 export interface TransactionInterface {
     /**
